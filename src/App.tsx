@@ -1,6 +1,9 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import axios from "axios";
+
+var urlgif: string = "http://d205bpvrqc9yn1.cloudfront.net/1403.gif";
 
 function App() {
   return (
@@ -18,9 +21,33 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={getAllExercises}>hi</button>
+        <img src={urlgif}></img>
       </header>
     </div>
   );
+}
+
+async function getAllExercises() {
+  var key: string = process.env.REACT_APP_KEY!;
+  const options = {
+    method: "GET",
+    url: "https://exercisedb.p.rapidapi.com/exercises/bodyPart/neck",
+    headers: {
+      "X-RapidAPI-Key": key,
+      "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
+    },
+  };
+
+  axios
+    .request(options)
+    .then(function (response) {
+      console.log(response.data);
+      //urlgif = response.data[1].gifUrl;
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
 }
 
 export default App;
